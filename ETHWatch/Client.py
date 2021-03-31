@@ -216,7 +216,9 @@ class Client:
         :rtype: depend of the endpoint
         """
         response = requests.get(url)
+        print(response.status_code)
         r_json = response.json()
-        if int(r_json['status']) > 0:
+        print(r_json)
+        if int(r_json['status']) > 0 or r_json['message'] == 'No transactions found':
             return r_json['result']
         raise APIException(response)
