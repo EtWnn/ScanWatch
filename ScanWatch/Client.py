@@ -2,18 +2,31 @@ from typing import Optional
 
 import requests
 
-from ETHWatch.exceptions import APIException
+from ScanWatch.exceptions import APIException
 
 
 class Client:
     """
-    Client for the etherscan.io API
+    Client for the etherscan.io API or the bscscan.io API
     https://etherscan.io/apis
+    https://bscscan.com/apis
     """
-    BASE_URL = "https://api.etherscan.io/api"
+    BASE_ETH_URL = "https://api.etherscan.io/api"
+    BASE_BSC_URL = "https://api.bscscan.com/api"
 
-    def __init__(self, api_token: str):
+    def __init__(self, api_token: str, scan_type: str):
+        """
+
+
+        :param api_token: token for the api
+        :type api_token: str
+        :param scan_type: if the scan is on ether or bsc
+        :type scan_type: str, one of ('ether', 'bsc')
+        """
         self.api_token = api_token
+        self.scan_type = scan_type
+        if self.scan_type not in ['ether', 'bsc']:
+            raise ValueError(f"scan must be one of {['ether', 'bsc']} but {self.scan_type} was received")
 
     def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
@@ -203,14 +216,15 @@ class Client:
         """
         _keywords = {**kwargs, "apikey": self.api_token}
         string_kws = "&".join((f"{key}={value}" for key, value in _keywords.items()))
-        return f"{Client.BASE_URL}?{string_kws}"
+        base_url = Client.BASE_ETH_URL if self.scan_type == 'ether' else Client.BASE_BSC_URL
+        return f"{base_url}?{string_kws}"
 
     @staticmethod
     def get_result(url: str):
         """
         call the API with an url, raise if the status is not ok and return the API result
 
-        :param url: url to request for the etherscan.io
+        :param url: url to request for the etherscan.io or bscscan.com
         :type url: str
         :return: API result
         :rtype: depend of the endpoint
