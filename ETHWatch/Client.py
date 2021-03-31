@@ -2,6 +2,8 @@ from typing import Optional
 
 import requests
 
+from ETHWatch.exceptions import APIException
+
 
 class Client:
     """
@@ -213,6 +215,10 @@ class Client:
         :return: API result
         :rtype: depend of the endpoint
         """
+        print(url)
         response = requests.get(url)
-        response.raise_for_status()
-        return response.json()['result']
+        r_json = response.json()
+        print(r_json)
+        if int(r_json['status']) > 0:
+            return r_json['result']
+        raise APIException(response)
