@@ -1,27 +1,28 @@
 ==============================
-Welcome to ETHWatch 0.1.1dev
+Welcome to ScanWatch 0.1.1dev
 ==============================
 
-A local tracker of transactions for ETH address
-It is a simple interface with the `etherscan <https://etherscan.io>`_ API.
+A local tracker of transactions for ETH address for ETH chain and BSC Chain
+It is a simple interface with the `etherscan <https://etherscan.io>`_ API and the
+`bscscan <https://bscscan.com>`_
 
 Quick Tour
 ----------
 
 
-`Generate an API token <https://etherscan.io/myapikey>`_ in your etherscan account.
+Generate an API token on `etherscan <https://etherscan.io/myapikey>`_ or on `bscscan <https://bscscan.com/myapikey>`_.
 
-``ETHWatch`` is not yet available on ``PYPI``, but it can be installed with ``pip``:
+``ScanWatch`` is not yet available on ``PYPI``, but it can be installed with ``pip``:
 
 .. code:: bash
 
-    pip install git+https://github.com/EtWnn/ETHWatch.git
+    pip install git+https://github.com/EtWnn/ScanWatch.git
 
 Use your api token to initiate the manager:
 
 .. code:: python
 
-    from ETHWatch.Client import Client
+    from ScanWatch.Client import Client
 
     api_token = "<API_TOKEN>"
 
@@ -29,10 +30,10 @@ Use your api token to initiate the manager:
 
     eth_address = "<YOUR_ETH_ADDRESS>"
 
-    # get the ETH balance
+    # get the ETH or BNB balance
     client.get_balance(eth_address)
 
-    # get your ETH transactions:
+    # get your ETH or BNB transactions:
     client.get_normal_transactions(eth_address)
 
     # get your ERC20 transactions:
