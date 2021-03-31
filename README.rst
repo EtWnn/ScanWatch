@@ -1,6 +1,6 @@
-========
-ETHWatch
-========
+==============================
+Welcome to ETHWatch 0.1.1dev
+==============================
 
 A local tracker of transactions for ETH address
 It is a simple interface with the `etherscan <https://etherscan.io>`_ API.
