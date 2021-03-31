@@ -215,10 +215,8 @@ class Client:
         :return: API result
         :rtype: depend of the endpoint
         """
-        print(url)
         response = requests.get(url)
         r_json = response.json()
-        print(r_json)
         if int(r_json['status']) > 0:
             return r_json['result']
         raise APIException(response)
