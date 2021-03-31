@@ -13,6 +13,21 @@ class Client:
     def __init__(self, api_token: str):
         self.api_token = api_token
 
+    def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
+        """
+        fetch mined blocks by an eth address
+
+        :param address: ETH address
+        :type address: str
+        :param start_block: fetch mined blocks starting with this block
+        :type start_block: Optional[int]
+        :param end_block: fetch mined blocks until this block
+        :type end_block: Optional[int]
+        :return: List of mined blocks
+        :rtype: List[Dict]
+        """
+        return self._get_transactions(address, 'getminedblocks', start_block, end_block)
+
     def get_erc721_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
         fetch erc721 transactions on an eth address
