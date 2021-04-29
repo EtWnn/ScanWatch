@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 from appdirs import AppDirs
 
-_app_dirs = AppDirs("BinanceWatch", "EtWnn")
+_app_dirs = AppDirs("ScanWatch", "EtWnn")
 
 
 def get_data_path():
