@@ -13,7 +13,7 @@ with open(os.path.join(this_directory, 'ScanWatch/__init__.py'), encoding='utf-8
 setup(
     name='ScanWatch',
     version=about['__version__'],
-    packages=['ScanWatch'],
+    packages=['ScanWatch', 'ScanWatch.storage', 'ScanWatch.utils'],
     url='https://github.com/EtWnn/ScanWatch',
     author='EtWnn',
     author_email='',
