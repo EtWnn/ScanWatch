@@ -41,13 +41,16 @@ class Client:
         :return: List of mined blocks
         :rtype: List[Dict]
         """
-        return self._get_transactions(address, 'getminedblocks', start_block, end_block)
+        try:
+            return self._get_transactions(address, 'getminedblocks', start_block, end_block)
+        except APIException:
+            return []
 
     def get_erc721_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc721 transactions on an eth address
+        fetch erc721 transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -60,9 +63,9 @@ class Client:
 
     def get_erc20_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc20 transactions on an eth address
+        fetch erc20 transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -100,9 +103,9 @@ class Client:
 
     def get_normal_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch normal transactions on an eth address
+        fetch normal transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -140,9 +143,9 @@ class Client:
     def get_internal_transactions(self, address: str, start_block: Optional[int] = None,
                                   end_block: Optional[int] = None):
         """
-        fetch internal transactions on an eth address
+        fetch internal transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -156,9 +159,9 @@ class Client:
     def _get_transactions(self, address: str, action: str, start_block: Optional[int] = None,
                           end_block: Optional[int] = None):
         """
-        fetch transactions on an eth address
+        fetch transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param action: name of the request for the api (ex 'txlist' or 'txlistinternal')
         :type action:
@@ -177,8 +180,8 @@ class Client:
                                        action=action,
                                        sort='asc',
                                        address=address,
-                                       start_block=start_block,
-                                       end_block=end_block,
+                                       startblock=start_block,
+                                       endblock=end_block,
                                        page=page_number,
                                        offset=offset)
             batch_txs = self.get_result(url)
@@ -191,9 +194,9 @@ class Client:
 
     def get_balance(self, address: str) -> float:
         """
-        fetch the current eth balance of an address
+        fetch the current eth / bnb balance of an address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :return: ETH amount
         :rtype: float
@@ -230,9 +233,7 @@ class Client:
         :rtype: depend of the endpoint
         """
         response = requests.get(url)
-        print(response.status_code)
         r_json = response.json()
-        print(r_json)
         if int(r_json['status']) > 0 or r_json['message'] == 'No transactions found':
             return r_json['result']
         raise APIException(response)
