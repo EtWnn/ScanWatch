@@ -21,7 +21,7 @@ setup(
     description='Local tracker of an eth address for ETH and BSC scan',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    install_requires=['requests'],
+    install_requires=['requests', 'appdirs'],
     keywords='eth bsc wallet save tracking history ethereum tracker binance smartchain smart chain',
     classifiers=[
         'Intended Audience :: Developers',
