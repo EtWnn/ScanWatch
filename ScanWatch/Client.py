@@ -3,6 +3,7 @@ from typing import Optional
 import requests
 
 from ScanWatch.exceptions import APIException
+from ScanWatch.utils.enums import NETWORK
 
 
 class Client:
@@ -14,19 +15,17 @@ class Client:
     BASE_ETH_URL = "https://api.etherscan.io/api"
     BASE_BSC_URL = "https://api.bscscan.com/api"
 
-    def __init__(self, api_token: str, scan_type: str):
+    def __init__(self, api_token: str, nt_type: NETWORK):
         """
 
 
         :param api_token: token for the api
         :type api_token: str
-        :param scan_type: if the scan is on ether or bsc
-        :type scan_type: str, one of ('ether', 'bsc')
+        :param nt_type: type of the network
+        :type nt_type: NETWORK
         """
         self.api_token = api_token
-        self.scan_type = scan_type
-        if self.scan_type not in ['ether', 'bsc']:
-            raise ValueError(f"scan must be one of {['ether', 'bsc']} but {self.scan_type} was received")
+        self.nt_type = nt_type
 
     def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
@@ -219,7 +218,12 @@ class Client:
         """
         _keywords = {**kwargs, "apikey": self.api_token}
         string_kws = "&".join((f"{key}={value}" for key, value in _keywords.items()))
-        base_url = Client.BASE_ETH_URL if self.scan_type == 'ether' else Client.BASE_BSC_URL
+        if self.nt_type == NETWORK.ETHER:
+            base_url = Client.BASE_ETH_URL
+        elif self.nt_type == NETWORK.BSC:
+            base_url = Client.BASE_BSC_URL
+        else:
+            raise ValueError(f"unknown network type: {self.nt_type}")
         return f"{base_url}?{string_kws}"
 
     @staticmethod
