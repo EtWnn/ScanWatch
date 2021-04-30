@@ -64,3 +64,14 @@ class ScanManager:
             pbar.update()
         pbar.set_description(f"all transactions updated for address {self.address[:5]}...{self.address[-5:]}")
         pbar.close()
+
+    def get_transactions(self, tr_type: TRANSACTION):
+        """
+        Return the transactions of the provided type that are saved locally for the address of the manager
+
+        :param tr_type: type of transaction to fetch
+        :type tr_type: TRANSACTION
+        :return: list of transactions
+        :rtype: List[Dict]
+        """
+        return self.db.get_transactions(self.address, self.nt_type, tr_type)
