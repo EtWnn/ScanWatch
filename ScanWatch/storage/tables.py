@@ -74,8 +74,8 @@ class Table:
         keys += self.columns_names
         try:
             return tuple([row[k] for k in keys])
-        except KeyError:
-            raise ValueError(f"missing keys in the row provided: {keys} are expected")
+        except KeyError as err:
+            raise ValueError(f"missing keys in the row provided: {keys} are expected") from err
 
 
 def get_normal_transaction_table(address: str, scan_type: NETWORK):
