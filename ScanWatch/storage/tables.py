@@ -42,7 +42,7 @@ class Table:
         if self.primary_key is not None:
             setattr(self, self.primary_key, self.primary_key)
 
-    def row_to_dict(self, row: Tuple) -> Dict:
+    def tuple_to_dict(self, row: Tuple) -> Dict:
         """
         Transform a row from Tuple to Dict with column names as keys.
 
@@ -59,7 +59,7 @@ class Table:
             raise ValueError(f"{len(keys)} values were expected but the row submitted only has {len(row)}")
         return {k: v for k, v in zip(keys, row)}
 
-    def dict_to_row(self, row: Dict) -> Tuple:
+    def dict_to_tuple(self, row: Dict) -> Tuple:
         """
         Transform a row from Dict to Tuple, in the order of the table columns
 
