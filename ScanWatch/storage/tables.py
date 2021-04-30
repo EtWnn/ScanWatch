@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Tuple, Dict
 
 
 class Table:
@@ -39,6 +39,41 @@ class Table:
 
         if self.primary_key is not None:
             setattr(self, self.primary_key, self.primary_key)
+
+    def row_to_dict(self, row: Tuple) -> Dict:
+        """
+        Transform a row from Tuple to Dict with column names as keys.
+
+        :param row: a row of this table
+        :type row: Tuple
+        :return: the dictionary equivalent of this row
+        :rtype: Dict
+        """
+        keys = []
+        if self.primary_key is not None:
+            keys.append(self.primary_key)
+        keys += self.columns_names
+        if len(keys) != len(row):
+            raise ValueError(f"{len(keys)} values were expected but the row submitted only has {len(row)}")
+        return {k: v for k, v in zip(keys, row)}
+
+    def dict_to_row(self, row: Dict) -> Tuple:
+        """
+        Transform a row from Dict to Tuple, in the order of the table columns
+
+        :param row: a row of this table
+        :type row: Dict
+        :return: the tuple equivalent of this row
+        :rtype: Tuple
+        """
+        keys = []
+        if self.primary_key is not None:
+            keys.append(self.primary_key)
+        keys += self.columns_names
+        try:
+            return tuple([row[k] for k in keys])
+        except KeyError:
+            raise ValueError(f"missing keys in the row provided: {keys} are expected")
 
 
 def get_normal_transaction_table(address: str, scan_type: str):
