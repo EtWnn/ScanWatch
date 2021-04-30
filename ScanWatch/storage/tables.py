@@ -1,5 +1,7 @@
 from typing import List, Optional, Tuple, Dict
 
+from ScanWatch.utils.enums import NETWORK, TRANSACTION
+
 
 class Table:
     """
@@ -76,7 +78,7 @@ class Table:
             raise ValueError(f"missing keys in the row provided: {keys} are expected")
 
 
-def get_normal_transaction_table(address: str, scan_type: str):
+def get_normal_transaction_table(address: str, scan_type: NETWORK):
     """
     Return the table used to store the normal transactions for an address and a scan type
 
@@ -111,104 +113,103 @@ def get_normal_transaction_table(address: str, scan_type: str):
     return Table(f"{scan_type}_{address}_normal_transaction", rows, row_types)
 
 
-def get_erc20_transaction_table(address: str, scan_type: str):
+def get_transaction_table(address: str, nt_type: NETWORK, tr_type: TRANSACTION):
     """
-    Return the table used to store the erc20 transactions for an address and a scan type
+    Return the table used to store the transactions depending on the address, network type and transaction type
 
     :param address: address of the transactions
     :type address: str
-    :param scan_type: scan type: ether or bsc
-    :type scan_type: str
-    :return: table to store the transactions
+    :param nt_type: type of network
+    :type nt_type: NETWORK
+    :param tr_type: type of the transaction to record
+    :type tr_type: TRANSACTION
+    :return: corresponding table
     :rtype: Table
     """
-    rows = [
-        'blockNumber',
-        'timeStamp',
-        'hash',
-        'nonce',
-        'blockHash',
-        'from',
-        'contractAddress',
-        'to',
-        'value',
-        'tokenName',
-        'tokenSymbol',
-        'tokenDecimal',
-        'transactionIndex',
-        'gas',
-        'gasPrice',
-        'gasUsed',
-        'cumulativeGasUsed',
-        'input',
-        'confirmations',
-    ]
+    if tr_type == TRANSACTION.NORMAL:
+        rows = [
+            'blockNumber',
+            'timeStamp',
+            'hash',
+            'nonce',
+            'blockHash',
+            'transactionIndex',
+            'from',
+            'to',
+            'value',
+            'gas',
+            'gasPrice',
+            'isError',
+            'txreceipt_status',
+            'input',
+            'contractAddress',
+            'cumulativeGasUsed',
+            'gasUsed',
+            'confirmations',
+        ]
+    elif tr_type == TRANSACTION.ERC20:
+        rows = [
+            'blockNumber',
+            'timeStamp',
+            'hash',
+            'nonce',
+            'blockHash',
+            'from',
+            'contractAddress',
+            'to',
+            'value',
+            'tokenName',
+            'tokenSymbol',
+            'tokenDecimal',
+            'transactionIndex',
+            'gas',
+            'gasPrice',
+            'gasUsed',
+            'cumulativeGasUsed',
+            'input',
+            'confirmations',
+        ]
+    elif tr_type == TRANSACTION.ERC721:
+        rows = [
+            'blockNumber',
+            'timeStamp',
+            'hash',
+            'nonce',
+            'blockHash',
+            'from',
+            'contractAddress',
+            'to',
+            'tokenID',
+            'tokenName',
+            'tokenSymbol',
+            'tokenDecimal',
+            'transactionIndex',
+            'gas',
+            'gasPrice',
+            'gasUsed',
+            'cumulativeGasUsed',
+            'input',
+            'confirmations',
+        ]
+    elif tr_type == TRANSACTION.INTERNAL:
+        rows = [
+            'blockNumber',
+            'timeStamp',
+            'hash',
+            'from',
+            'to',
+            'value',
+            'contractAddress',
+            'input',
+            'type',
+            'gas',
+            'gasUsed',
+            'traceId',
+            'isError',
+            'errCode'
+        ]
+    else:
+        raise ValueError(f"unknown transaction type: {tr_type}")
+
     row_types = len(rows) * ['TEXT']
-    return Table(f"{scan_type}_{address}_erc20_transaction", rows, row_types)
-
-
-def get_erc721_transaction_table(address: str, scan_type: str):
-    """
-    Return the table used to store the erc721 transactions for an address and a scan type
-
-    :param address: address of the transactions
-    :type address: str
-    :param scan_type: scan type: ether or bsc
-    :type scan_type: str
-    :return: table to store the transactions
-    :rtype: Table
-    """
-    rows = [
-        'blockNumber',
-        'timeStamp',
-        'hash',
-        'nonce',
-        'blockHash',
-        'from',
-        'contractAddress',
-        'to',
-        'tokenID',
-        'tokenName',
-        'tokenSymbol',
-        'tokenDecimal',
-        'transactionIndex',
-        'gas',
-        'gasPrice',
-        'gasUsed',
-        'cumulativeGasUsed',
-        'input',
-        'confirmations',
-    ]
-    row_types = len(rows) * ['TEXT']
-    return Table(f"{scan_type}_{address}_erc721_transaction", rows, row_types)
-
-
-def get_internal_transaction_table(address: str, scan_type: str):
-    """
-    Return the table used to store the internal transactions for an address and a scan type
-
-    :param address: address of the transactions
-    :type address: str
-    :param scan_type: scan type: ether or bsc
-    :type scan_type: str
-    :return: table to store the transactions
-    :rtype: Table
-    """
-    rows = [
-        'blockNumber',
-        'timeStamp',
-        'hash',
-        'from',
-        'to',
-        'value',
-        'contractAddress',
-        'input',
-        'type',
-        'gas',
-        'gasUsed',
-        'traceId',
-        'isError',
-        'errCode'
-    ]
-    row_types = len(rows) * ['TEXT']
-    return Table(f"{scan_type}_{address}_internal_transaction", rows, row_types)
+    return Table(f"{nt_type.name.lower()}_{tr_type.name.lower()}_{address}_transaction", rows, row_types)
