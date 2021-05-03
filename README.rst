@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.1.1dev
+Welcome to ScanWatch 0.1.1
 ==============================
 
 A local tracker of transactions for the Ethereum chain and the Binance Smart chain.
