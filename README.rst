@@ -1,8 +1,22 @@
 ==============================
-Welcome to ScanWatch 0.1.1dev
+Welcome to ScanWatch 0.1.1
 ==============================
 
-A local tracker of transactions for the Ethereum chain and the Binance Smart chain.
+Note
+----
+
+This library is under development by EtWnn, feel free to drop your suggestions or remarks in
+the discussion tab of the git repo. You are also welcome to contribute by submitting PRs.
+
+This library is made to retrieve price or candle history of crypto assets using multiple sources.
+
+**Source Code:**
+    https://github.com/EtWnn/ScanWatch
+**Documentation:**
+    https://scanwatch.readthedocs.io
+
+
+This library is a local tracker of transactions for the Ethereum chain and the Binance Smart chain.
 It is a simple interface with the `etherscan <https://etherscan.io>`_ and the
 `bscscan <https://bscscan.com>`_ APIs and will save locally the results to gain time and avoid over-calling the APIs.
 
@@ -14,11 +28,17 @@ Go on `etherscan <https://etherscan.io/myapikey>`__ for the Ethereum chain and o
 `bscscan <https://bscscan.com/myapikey>`__ for the BSC chain.
 (If you want to use both chains, you will need an API token for each).
 
-``ScanWatch`` is not yet available on ``PYPI``, but it can be installed with ``pip``:
+``ScanWatch`` is not yet available on `PYPI <https://pypi.org/project/ScanWatch/>`_, install with ``pip``:
 
 .. code:: bash
 
-    pip install git+https://github.com/EtWnn/ScanWatch.git
+    pip install ScanWatch
+
+You can also install the latest developments (not stable):
+
+.. code:: bash
+
+    pip install git+https://github.com/EtWnn/ScanWatch.git@develop
 
 You can then use your API token to instantiate the manager.
 
