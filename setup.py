@@ -7,22 +7,22 @@ with open(os.path.join(this_directory, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 about = {}
-with open(os.path.join(this_directory, 'ETHWatch/__init__.py'), encoding='utf-8') as f:
+with open(os.path.join(this_directory, 'ScanWatch/__init__.py'), encoding='utf-8') as f:
     exec(f.read(), about)
 
 setup(
-    name='ETHWatch',
+    name='ScanWatch',
     version=about['__version__'],
-    packages=['ETHWatch'],
-    url='https://github.com/EtWnn/ETHWatch',
+    packages=['ScanWatch', 'ScanWatch.storage', 'ScanWatch.utils'],
+    url='https://github.com/EtWnn/ScanWatch',
     author='EtWnn',
     author_email='',
     license='MIT',
-    description='Local tracker of an address',
+    description='Local tracker of an eth address for ETH and BSC scan',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    install_requires=['requests'],
-    keywords='eth wallet save tracking history ethereum tracker',
+    install_requires=['requests', 'appdirs', 'tqdm'],
+    keywords='eth bsc wallet save tracking history ethereum tracker binance smartchain smart chain',
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',

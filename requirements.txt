@@ -1,1 +1,6 @@
 requests
+appdirs
+tqdm
+sphinx
+sphinx_rtd_theme
+twine

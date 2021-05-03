@@ -2,16 +2,30 @@ from typing import Optional
 
 import requests
 
+from ScanWatch.exceptions import APIException
+from ScanWatch.utils.enums import NETWORK
+
 
 class Client:
     """
-    Client for the etherscan.io API
+    Client for the etherscan.io API or the bscscan.io API
     https://etherscan.io/apis
+    https://bscscan.com/apis
     """
-    BASE_URL = "https://api.etherscan.io/api"
+    BASE_ETH_URL = "https://api.etherscan.io/api"
+    BASE_BSC_URL = "https://api.bscscan.com/api"
 
-    def __init__(self, api_token: str):
+    def __init__(self, api_token: str, nt_type: NETWORK):
+        """
+
+
+        :param api_token: token for the api
+        :type api_token: str
+        :param nt_type: type of the network
+        :type nt_type: NETWORK
+        """
         self.api_token = api_token
+        self.nt_type = nt_type
 
     def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
@@ -26,13 +40,16 @@ class Client:
         :return: List of mined blocks
         :rtype: List[Dict]
         """
-        return self._get_transactions(address, 'getminedblocks', start_block, end_block)
+        try:
+            return self._get_transactions(address, 'getminedblocks', start_block, end_block)
+        except APIException:
+            return []
 
     def get_erc721_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc721 transactions on an eth address
+        fetch erc721 transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -45,9 +62,9 @@ class Client:
 
     def get_erc20_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc20 transactions on an eth address
+        fetch erc20 transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -85,9 +102,9 @@ class Client:
 
     def get_normal_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch normal transactions on an eth address
+        fetch normal transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -125,9 +142,9 @@ class Client:
     def get_internal_transactions(self, address: str, start_block: Optional[int] = None,
                                   end_block: Optional[int] = None):
         """
-        fetch internal transactions on an eth address
+        fetch internal transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param start_block: fetch transactions starting with this block
         :type start_block: Optional[int]
@@ -141,9 +158,9 @@ class Client:
     def _get_transactions(self, address: str, action: str, start_block: Optional[int] = None,
                           end_block: Optional[int] = None):
         """
-        fetch transactions on an eth address
+        fetch transactions on an eth / bsc address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :param action: name of the request for the api (ex 'txlist' or 'txlistinternal')
         :type action:
@@ -162,8 +179,8 @@ class Client:
                                        action=action,
                                        sort='asc',
                                        address=address,
-                                       start_block=start_block,
-                                       end_block=end_block,
+                                       startblock=start_block,
+                                       endblock=end_block,
                                        page=page_number,
                                        offset=offset)
             batch_txs = self.get_result(url)
@@ -176,9 +193,9 @@ class Client:
 
     def get_balance(self, address: str) -> float:
         """
-        fetch the current eth balance of an address
+        fetch the current eth / bnb balance of an address
 
-        :param address: ETH address
+        :param address: address
         :type address: str
         :return: ETH amount
         :rtype: float
@@ -201,18 +218,26 @@ class Client:
         """
         _keywords = {**kwargs, "apikey": self.api_token}
         string_kws = "&".join((f"{key}={value}" for key, value in _keywords.items()))
-        return f"{Client.BASE_URL}?{string_kws}"
+        if self.nt_type == NETWORK.ETHER:
+            base_url = Client.BASE_ETH_URL
+        elif self.nt_type == NETWORK.BSC:
+            base_url = Client.BASE_BSC_URL
+        else:
+            raise ValueError(f"unknown network type: {self.nt_type}")
+        return f"{base_url}?{string_kws}"
 
     @staticmethod
     def get_result(url: str):
         """
         call the API with an url, raise if the status is not ok and return the API result
 
-        :param url: url to request for the etherscan.io
+        :param url: url to request for the etherscan.io or bscscan.com
         :type url: str
         :return: API result
         :rtype: depend of the endpoint
         """
         response = requests.get(url)
-        response.raise_for_status()
-        return response.json()['result']
+        r_json = response.json()
+        if int(r_json['status']) > 0 or r_json['message'] == 'No transactions found':
+            return r_json['result']
+        raise APIException(response)
