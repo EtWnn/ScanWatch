@@ -10,7 +10,7 @@ Quick Tour
 ----------
 
 
-Generate an API token on `etherscan <https://etherscan.io/myapikey>`_ or on `bscscan <https://bscscan.com/myapikey>`_.
+Generate an API token on `etherscan <https://etherscan.io/myapikey>`__ or on `bscscan <https://bscscan.com/myapikey>`__.
 
 ``ScanWatch`` is not yet available on ``PYPI``, but it can be installed with ``pip``:
 
