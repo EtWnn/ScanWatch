@@ -5,7 +5,7 @@ Welcome to ScanWatch 0.1.1
 Note
 ----
 
-This library is under development by EtWnn, feel free to drop your suggestions or remarks in
+This library is developed and maintained by EtWnn, feel free to drop your suggestions or remarks in
 the discussion tab of the git repo. You are also welcome to contribute by submitting PRs.
 
 **Source Code:**
