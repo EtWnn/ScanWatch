@@ -44,9 +44,9 @@ class Client:
 
     def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch mined blocks by an eth address
+        fetch mined blocks by an address
 
-        :param address: ETH address
+        :param address: network address
         :type address: str
         :param start_block: fetch mined blocks starting with this block
         :type start_block: Optional[int]
@@ -224,7 +224,7 @@ class Client:
 
     def get_url_request(self, **kwargs) -> str:
         """
-        Construct the url to make a request to the etherscan.io API
+        Construct the url to make a request to the etherscan.io / bscscan.com API
 
         :param kwargs: keywords args for the endpoint
         :type kwargs: Any
