@@ -236,7 +236,8 @@ class Client:
         :return: API result
         :rtype: depend of the endpoint
         """
-        response = requests.get(url)
+        response = requests.get(url, headers={"User-Agent": "Mozilla/5.0"})
+        response.raise_for_status()
         r_json = response.json()
         if int(r_json['status']) > 0 or r_json['message'] == 'No transactions found':
             return r_json['result']
