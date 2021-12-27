@@ -10,7 +10,7 @@ class ScanManager:
     This class is the interface between the user, the API and the Database
     """
 
-    def __init__(self, address: str, nt_type: NETWORK, api_token: str):
+    def __init__(self, address: str, nt_type: NETWORK, api_token: str, net: str = "main"):
         """
         Initiate the manager
 
@@ -20,10 +20,13 @@ class ScanManager:
         :type nt_type: NETWORK
         :param api_token: token to communicate with the API
         :type api_token: str
+        :param net: name of the network, used to differentiate main and test nets
+        :type net: str, default 'main'
         """
         self.address = address
         self.nt_type = nt_type
-        self.client = Client(api_token, self.nt_type)
+        self.net = net
+        self.client = Client(api_token, self.nt_type, self.net)
         self.db = ScanDataBase()
 
     def update_transactions(self, tr_type: TRANSACTION):
@@ -35,7 +38,7 @@ class ScanManager:
         :return: None
         :rtype: None
         """
-        last_block = self.db.get_last_block_number(self.address, self.nt_type, tr_type)
+        last_block = self.db.get_last_block_number(self.address, self.nt_type, self.net, tr_type)
         if tr_type == TRANSACTION.NORMAL:
             new_transactions = self.client.get_normal_transactions(self.address, start_block=last_block + 1)
         elif tr_type == TRANSACTION.INTERNAL:
@@ -46,7 +49,7 @@ class ScanManager:
             new_transactions = self.client.get_erc721_transactions(self.address, start_block=last_block + 1)
         else:
             raise ValueError(f"unknown transaction type: {tr_type}")
-        self.db.add_transactions(self.address, self.nt_type, tr_type, new_transactions)
+        self.db.add_transactions(self.address, self.nt_type, self.net, tr_type, new_transactions)
 
     def update_all_transactions(self):
         """
@@ -74,4 +77,4 @@ class ScanManager:
         :return: list of transactions
         :rtype: List[Dict]
         """
-        return self.db.get_transactions(self.address, self.nt_type, tr_type)
+        return self.db.get_transactions(self.address, self.nt_type, self.net, tr_type)

@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.1.1
+Welcome to ScanWatch 0.1.2
 ==============================
 
 Note
@@ -86,6 +86,20 @@ Otherwise you can just fetch the transactions that have been previously saved, a
     manager.get_transactions(TRANSACTION.ERC721)  # erc721 transactions
 
     manager.get_transactions(TRANSACTION.INTERNAL)  # internal transactions
+
+
+Main / test nets
+----------------
+
+If you want to switch from main to test nets, you can specify the net name at the manager creation:
+
+.. code:: python
+
+    manager = ScanManager(address, <network>, api_token, <net_name>)
+
+Supported nets are:
+    - For Ethereum: "main", "goerli", "kovan", "rinkeby", "ropsten"
+    - For BSC: "main", "test"
 
 
 Donation
