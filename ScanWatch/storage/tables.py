@@ -113,7 +113,7 @@ def get_normal_transaction_table(address: str, scan_type: NETWORK):
     return Table(f"{scan_type}_{address}_normal_transaction", rows, row_types)
 
 
-def get_transaction_table(address: str, nt_type: NETWORK, tr_type: TRANSACTION):
+def get_transaction_table(address: str, nt_type: NETWORK, net: str, tr_type: TRANSACTION):
     """
     Return the table used to store the transactions depending on the address, network type and transaction type
 
@@ -121,6 +121,8 @@ def get_transaction_table(address: str, nt_type: NETWORK, tr_type: TRANSACTION):
     :type address: str
     :param nt_type: type of network
     :type nt_type: NETWORK
+    :param net: name of the network, used to differentiate main and test nets
+    :type net: str
     :param tr_type: type of the transaction to record
     :type tr_type: TRANSACTION
     :return: corresponding table
@@ -212,4 +214,7 @@ def get_transaction_table(address: str, nt_type: NETWORK, tr_type: TRANSACTION):
         raise ValueError(f"unknown transaction type: {tr_type}")
 
     row_types = len(rows) * ['TEXT']
-    return Table(f"{nt_type.name.lower()}_{tr_type.name.lower()}_{address}_transaction", rows, row_types)
+    pre_name = f"{nt_type.name.lower()}_{tr_type.name.lower()}"
+    if net != "main":  # backward compatibility
+        pre_name += f"_{net}"
+    return Table(pre_name + f"_{address}_transaction", rows, row_types)
