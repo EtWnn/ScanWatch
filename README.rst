@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.1.2dev
+Welcome to ScanWatch 0.1.2
 ==============================
 
 Note
