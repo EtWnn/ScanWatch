@@ -12,10 +12,21 @@ class Client:
     https://etherscan.io/apis
     https://bscscan.com/apis
     """
-    BASE_ETH_URL = "https://api.etherscan.io/api"
-    BASE_BSC_URL = "https://api.bscscan.com/api"
+    BASE_URLS = {
+        NETWORK.BSC: {
+            "main": "https://api.bscscan.com/api",
+            "test": "https://api-testnet.bscscan.com/api"
+        },
+        NETWORK.ETHER: {
+            "main": "https://api.etherscan.io/api",
+            "goerli": "https://api-goerli.etherscan.io/api",
+            "kovan": "https://api-kovan.etherscan.io/api",
+            "rinkeby": "https://api-rinkeby.etherscan.io/api",
+            "ropsten": "https://api-ropsten.etherscan.io/api"
+        }
+    }
 
-    def __init__(self, api_token: str, nt_type: NETWORK):
+    def __init__(self, api_token: str, nt_type: NETWORK, net: str = "main"):
         """
 
 
@@ -23,9 +34,13 @@ class Client:
         :type api_token: str
         :param nt_type: type of the network
         :type nt_type: NETWORK
+        :param net: name of the network, used to differentiate main and test nets
+        :type net: str, default 'main'
         """
         self.api_token = api_token
         self.nt_type = nt_type
+        self.net = net
+        self.get_url_request()  # test if network parameters are valid
 
     def get_mined_blocks(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
@@ -218,12 +233,10 @@ class Client:
         """
         _keywords = {**kwargs, "apikey": self.api_token}
         string_kws = "&".join((f"{key}={value}" for key, value in _keywords.items()))
-        if self.nt_type == NETWORK.ETHER:
-            base_url = Client.BASE_ETH_URL
-        elif self.nt_type == NETWORK.BSC:
-            base_url = Client.BASE_BSC_URL
-        else:
-            raise ValueError(f"unknown network type: {self.nt_type}")
+        try:
+            base_url = self.BASE_URLS[self.nt_type][self.net]
+        except KeyError as err:
+            raise ValueError(f"unknown network with type {self.nt_type} and name {self.net}") from err
         return f"{base_url}?{string_kws}"
 
     @staticmethod
