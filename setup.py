@@ -16,7 +16,7 @@ setup(
     packages=['ScanWatch', 'ScanWatch.storage', 'ScanWatch.utils'],
     url='https://github.com/EtWnn/ScanWatch',
     author='EtWnn',
-    author_email='',
+    author_email='EtWnn0x@gmail.com',
     license='MIT',
     description='Local tracker of an eth address for ETH and BSC scan',
     long_description=long_description,
