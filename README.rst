@@ -44,7 +44,7 @@ Example for Ethereum:
 
 .. code:: python
 
-    from ScanWatch import ScanManager
+    from ScanWatch.ScanManager import ScanManager
     from ScanWatch.utils.enums import NETWORK
 
     api_token = "<ETH_API_TOKEN>"
@@ -56,7 +56,7 @@ Example for BSC:
 
 .. code:: python
 
-    from ScanWatch import ScanManager
+    from ScanWatch.ScanManager import ScanManager
     from ScanWatch.utils.enums import NETWORK
 
     api_token = "<BSC_API_TOKEN>"
