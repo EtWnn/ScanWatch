@@ -18,6 +18,13 @@ This library is a local tracker of transactions for the Ethereum chain and the B
 It is a simple interface with the `etherscan <https://etherscan.io>`_ and the
 `bscscan <https://bscscan.com>`_ APIs and will save locally the results to gain time and avoid over-calling the APIs.
 
+Announcement
+-------
+
+If you previously used this library with a version inferior to 0.1.3,
+please head `here <https://github.com/EtWnn/ScanWatch/discussions/25>`_ to correct a potential bug in the database.
+
+
 Quick Tour
 ----------
 
