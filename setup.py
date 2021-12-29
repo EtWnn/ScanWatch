@@ -10,18 +10,22 @@ about = {}
 with open(os.path.join(this_directory, 'ScanWatch/__init__.py'), encoding='utf-8') as f:
     exec(f.read(), about)
 
+with open("requirements.txt") as file:
+    requirements_content = file.read()
+requirements = requirements_content.split('\n')
+
 setup(
     name='ScanWatch',
     version=about['__version__'],
     packages=['ScanWatch', 'ScanWatch.storage', 'ScanWatch.utils'],
     url='https://github.com/EtWnn/ScanWatch',
     author='EtWnn',
-    author_email='',
+    author_email='EtWnn0x@gmail.com',
     license='MIT',
     description='Local tracker of an eth address for ETH and BSC scan',
     long_description=long_description,
     long_description_content_type='text/x-rst',
-    install_requires=['requests', 'appdirs', 'tqdm'],
+    install_requires=requirements,
     keywords='eth bsc wallet save tracking history ethereum tracker binance smartchain smart chain',
     classifiers=[
         'Intended Audience :: Developers',

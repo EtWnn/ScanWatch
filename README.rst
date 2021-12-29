@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.1.2
+Welcome to ScanWatch 0.1.3
 ==============================
 
 Note
@@ -17,6 +17,13 @@ the discussion tab of the git repo. You are also welcome to contribute by submit
 This library is a local tracker of transactions for the Ethereum chain and the Binance Smart chain.
 It is a simple interface with the `etherscan <https://etherscan.io>`_ and the
 `bscscan <https://bscscan.com>`_ APIs and will save locally the results to gain time and avoid over-calling the APIs.
+
+Announcement
+------------
+
+If you previously used this library with a version inferior to 0.1.3,
+please head `here <https://github.com/EtWnn/ScanWatch/discussions/25>`_ to correct a potential bug in the database.
+
 
 Quick Tour
 ----------
@@ -44,7 +51,7 @@ Example for Ethereum:
 
 .. code:: python
 
-    from ScanWatch import ScanManager
+    from ScanWatch.ScanManager import ScanManager
     from ScanWatch.utils.enums import NETWORK
 
     api_token = "<ETH_API_TOKEN>"
@@ -56,7 +63,7 @@ Example for BSC:
 
 .. code:: python
 
-    from ScanWatch import ScanManager
+    from ScanWatch.ScanManager import ScanManager
     from ScanWatch.utils.enums import NETWORK
 
     api_token = "<BSC_API_TOKEN>"
