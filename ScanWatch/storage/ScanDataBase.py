@@ -78,16 +78,13 @@ class ScanDataBase(DataBase):
         :rtype: int
         """
         table = get_transaction_table(address, nt_type, net, tr_type)
-        selection = f"MAX({table.blockNumber})"
-        result = self.get_conditions_rows(table, selection=selection)
+        selection = str(table.blockNumber)
+        query = self.get_conditions_rows(table, selection=selection)
         default = 0
         try:
-            result = result[0][0]
-        except IndexError:
+            return max([int(e[0]) for e in query])
+        except ValueError:
             return default
-        if result is None:
-            return default
-        return int(result)
 
 
 
