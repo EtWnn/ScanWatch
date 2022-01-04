@@ -7,7 +7,8 @@ Note
 ----
 
 This library is developed and maintained by EtWnn, feel free to drop your suggestions or remarks in
-the discussion tab of the git repo. You are also welcome to contribute by submitting PRs.
+the `discussion tab <https://github.com/EtWnn/ScanWatch/discussions>`_.
+You are also welcome to contribute by submitting PRs.
 
 **Source Code:**
     https://github.com/EtWnn/ScanWatch
@@ -15,21 +16,21 @@ the discussion tab of the git repo. You are also welcome to contribute by submit
     https://scanwatch.readthedocs.io
 
 
-This library is a local tracker of transactions for the Ethereum chain, the Binance Smart chain and the Polygon chain.
-It is a simple single-point interface with the `etherscan <https://etherscan.io>`_, `bscscan <https://bscscan.com>`_ and
-`polygonscan <https://polygonscan.com>`_ APIs.
-This library will save locally the transactions to gain time and avoid over-calling the APIs.
+| This library is a local tracker of transactions for the Ethereum chain, the Binance Smart chain and the Polygon chain.
+| It is a simple single-point interface with the `etherscan <https://etherscan.io>`_, `bscscan <https://bscscan.com>`_
+  and `polygonscan <https://polygonscan.com>`_ APIs.
+| This library will save locally the transactions to gain time and avoid over-calling the APIs.
 
 
 Announcement
 ------------
 
-|siren||siren||siren|
+|siren| |siren| |siren|
 
 If you previously used this library with a version inferior to 0.1.3,
 please head `here <https://github.com/EtWnn/ScanWatch/discussions/25>`_ to correct a potential bug in the database.
 
-|siren||siren||siren|
+|siren| |siren| |siren|
 
 
 Quick Tour
@@ -38,7 +39,7 @@ Quick Tour
 1. API Keys
 ~~~~~~~~~~~~
 
-You will need to generate an API token to use this library:
+You will need to generate API tokens to use this library:
 
 1. Ethereum chain: go on `etherscan <https://etherscan.io/myapikey>`_
 2. Binance Smart chain: go on `bscscan <https://bscscan.com/myapikey>`_
@@ -64,9 +65,8 @@ You can also install the latest developments (not stable):
 3. Manager
 ~~~~~~~~~~
 
-The manager is the object that you will use to update and get the transactions.
-
-The manager is instantiated with an API token and an address.
+| The manager is the object that you will use to update and get the transactions.
+| It is instantiated with an API token and an address.
 
 Example for Ethereum:
 
@@ -91,6 +91,18 @@ Example for BSC:
     address = "<YOUR_BSC_ADDRESS>"
 
     manager = ScanManager(address, NETWORK.BSC, api_token)
+
+Example for Polygon:
+
+.. code:: python
+
+    from ScanWatch.ScanManager import ScanManager
+    from ScanWatch.utils.enums import NETWORK
+
+    api_token = "<POLYGON_API_TOKEN>"
+    address = "<YOUR_POLYGON_ADDRESS>"
+
+    manager = ScanManager(address, NETWORK.POLYGON, api_token)
 
 4. Transactions Update
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -183,17 +195,17 @@ If you want to switch from main to test nets, you can specify the net name at th
 Supported nets are:
     - For Ethereum: "main", "goerli", "kovan", "rinkeby", "ropsten"
     - For BSC: "main", "test"
+    - For Polygon: "main", "test"
 
 
 Donation
 --------
 
-If this library has helped you in any way, feel free to help me |blush|
-
-With your donation, I will be able to keep working on this project and add new features. Thank you!
+| If this library has helped you in any way, feel free to help me |blush|
+| With your donation, I will be able to keep working on this project and add new features. Thank you!
 
 - **BTC**: 14ou4fMYoMVYbWEKnhADPJUNVytWQWx9HG
-- **ETH**: 0xfb0ebcf8224ce561bfb06a56c3b9a43e1a4d1be2
+- **ETH**, **BSC**, **Polygon**: 0xA20be1f02B1C9D4FF1442a0F0e7c089fcDd59407
 - **LTC**: LfHgc969RFUjnmyLn41SRDvmT146jUg9tE
 - **EGLD**: erd1qk98xm2hgztvmq6s4jwtk06g6laattewp6vh20z393drzy5zzfrq0gaefh
 
