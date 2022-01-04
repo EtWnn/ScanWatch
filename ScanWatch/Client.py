@@ -8,9 +8,10 @@ from ScanWatch.utils.enums import NETWORK
 
 class Client:
     """
-    Client for the etherscan.io API or the bscscan.io API
+    Client the API:
     https://etherscan.io/apis
     https://bscscan.com/apis
+    https://polygonscan.com/apis
     """
     BASE_URLS = {
         NETWORK.BSC: {
@@ -23,6 +24,10 @@ class Client:
             "kovan": "https://api-kovan.etherscan.io/api",
             "rinkeby": "https://api-rinkeby.etherscan.io/api",
             "ropsten": "https://api-ropsten.etherscan.io/api"
+        },
+        NETWORK.POLYGON: {
+            "main": "https://api.polygonscan.com/api",
+            "test": "https://api-testnet.polygonscan.com/api"
         }
     }
 
@@ -62,7 +67,7 @@ class Client:
 
     def get_erc721_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc721 transactions on an eth / bsc address
+        fetch erc721 transactions on an address
 
         :param address: address
         :type address: str
@@ -77,7 +82,7 @@ class Client:
 
     def get_erc20_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch erc20 transactions on an eth / bsc address
+        fetch erc20 transactions on an address
 
         :param address: address
         :type address: str
@@ -117,7 +122,7 @@ class Client:
 
     def get_normal_transactions(self, address: str, start_block: Optional[int] = None, end_block: Optional[int] = None):
         """
-        fetch normal transactions on an eth / bsc address
+        fetch normal transactions on an address
 
         :param address: address
         :type address: str
@@ -157,7 +162,7 @@ class Client:
     def get_internal_transactions(self, address: str, start_block: Optional[int] = None,
                                   end_block: Optional[int] = None):
         """
-        fetch internal transactions on an eth / bsc address
+        fetch internal transactions on an address
 
         :param address: address
         :type address: str
@@ -173,7 +178,7 @@ class Client:
     def _get_transactions(self, address: str, action: str, start_block: Optional[int] = None,
                           end_block: Optional[int] = None):
         """
-        fetch transactions on an eth / bsc address
+        fetch transactions on an address
 
         :param address: address
         :type address: str
@@ -208,7 +213,7 @@ class Client:
 
     def get_balance(self, address: str) -> float:
         """
-        fetch the current eth / bnb balance of an address
+        fetch the current balance of an address
 
         :param address: address
         :type address: str
@@ -224,7 +229,7 @@ class Client:
 
     def get_url_request(self, **kwargs) -> str:
         """
-        Construct the url to make a request to the etherscan.io / bscscan.com API
+        Construct the url to make a request to the API
 
         :param kwargs: keywords args for the endpoint
         :type kwargs: Any
@@ -244,7 +249,7 @@ class Client:
         """
         call the API with an url, raise if the status is not ok and return the API result
 
-        :param url: url to request for the etherscan.io or bscscan.com
+        :param url: url to request
         :type url: str
         :return: API result
         :rtype: depend of the endpoint
