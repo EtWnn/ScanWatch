@@ -4,6 +4,7 @@ from enum import Enum
 class NETWORK(Enum):
     ETHER = 1
     BSC = 2
+    POLYGON = 3
 
 
 class TRANSACTION(Enum):
