@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.1.3
+Welcome to ScanWatch 0.2.0dev
 ==============================
 
 Note
@@ -93,6 +93,52 @@ Otherwise you can just fetch the transactions that have been previously saved, a
     manager.get_transactions(TRANSACTION.ERC721)  # erc721 transactions
 
     manager.get_transactions(TRANSACTION.INTERNAL)  # internal transactions
+
+The manager also help you the get the current assets owned by an address.
+
+
+For erc20:
+
+.. code:: python
+
+    manager.get_erc20_holdings()
+
+
+.. code:: bash
+
+    {
+        'USDC': Decimal('50'),
+        'AllianceBlock Token': Decimal('12458.494516884'),
+        'Blockchain Certified Data Token': Decimal('75174'),
+        'Compound': Decimal('784.24998156'),
+        'ZRX': Decimal('3.1')
+    }
+
+For erc721:
+
+.. code:: python
+
+    manager.get_erc721_holdings()
+
+
+.. code:: bash
+
+    [
+        {
+            'contractAddress': '0x8azd48c9ze46azx1e984fraz4da9zz8dssad49ct',
+            'tokenID': '78941',
+            'count': 1,
+            'tokenName': 'SUPER NFT GAME',
+            'tokenSymbol': 'Hero'
+        },
+        {
+            'contractAddress': '0x6edd39bdba2fazs3db5fxd86908789cbd905f04d',
+            'tokenID': '33001',
+            'count': 1,
+            'tokenName': 'MY FAV NFT ARTIST HANDMADE THIS',
+            'tokenSymbol': 'dubious thing'
+        }
+    ]
 
 
 Main / test nets

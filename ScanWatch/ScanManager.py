@@ -1,3 +1,6 @@
+from decimal import Decimal
+from typing import Dict, List
+
 from tqdm import tqdm
 
 from ScanWatch.Client import Client
@@ -78,3 +81,63 @@ class ScanManager:
         :rtype: List[Dict]
         """
         return self.db.get_transactions(self.address, self.nt_type, self.net, tr_type)
+
+    def get_erc20_holdings(self) -> Dict:
+        """
+        Return the amount of every erc20 the address holds at the last update time.
+        WARNING: Some tokens trigger non-erc20 events, such as internal exchange fee. This will not be picked up by
+        this function. As a consequence, the balance of such tokens might be wrong.
+
+        :return: a dictionary of token amount per token name
+        :rtype: Dict
+        """
+        txs = self.get_transactions(TRANSACTION.ERC20)
+        holdings = {}
+        for tx in txs:
+            amount = Decimal(tx['value']) / Decimal(10 ** int(tx['tokenDecimal']))
+            if self.address.lower() == tx['from']:
+                amount *= -1
+            try:
+                holdings[tx['tokenName']] += amount
+            except KeyError:
+                if amount < 0:
+                    raise ValueError(f"First operation on an asset is a removal {tx}")
+                holdings[tx['tokenName']] = amount
+        return {k: v for k, v in holdings.items() if v != 0}
+
+    def get_erc721_holdings(self) -> List[Dict]:
+        """
+        Return the erc721 tokens that the address holds at the time of the last update
+
+        :return: List of erc721 tokens owned by the address
+        :rtype: List[Dict]
+        """
+        txs = self.get_transactions(TRANSACTION.ERC721)
+        holdings = {}
+        for tx in txs:
+            amount = 1
+            if self.address.lower() == tx['from']:
+                amount = -1
+            try:
+                holdings[tx['contractAddress']][tx['tokenID']]['count'] += amount
+            except KeyError:
+                if amount < 0:
+                    raise ValueError(f"First operation on an asset is a removal {tx}")
+                try:
+                    holdings[tx['contractAddress']][tx['tokenID']] = {'count': amount,
+                                                                      'tokenName': tx['tokenName'],
+                                                                      'tokenSymbol': tx['tokenSymbol']}
+                except KeyError:
+                    holdings[tx['contractAddress']] = {tx['tokenID']: {'count': amount,
+                                                                       'tokenName': tx['tokenName'],
+                                                                       'tokenSymbol': tx['tokenSymbol']}
+                                                       }
+        # Present the result in a single list
+        result = []
+        for contract, nfts in holdings.items():
+            for token_id, nft in nfts.items():
+                if nft['count'] != 0:
+                    result.append({'contractAddress': contract,
+                                   'tokenID': token_id,
+                                   **nft})
+        return result
