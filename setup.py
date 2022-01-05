@@ -22,11 +22,11 @@ setup(
     author='EtWnn',
     author_email='EtWnn0x@gmail.com',
     license='MIT',
-    description='Local tracker of an eth address for ETH and BSC scan',
+    description='Local tracker for address on Ethereum, BSC and Polygon chains',
     long_description=long_description,
     long_description_content_type='text/x-rst',
     install_requires=requirements,
-    keywords='eth bsc wallet save tracking history ethereum tracker binance smartchain smart chain',
+    keywords='eth bsc polygon wallet save tracking history ethereum matic bnb tracker binance smartchain smart chain',
     classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
