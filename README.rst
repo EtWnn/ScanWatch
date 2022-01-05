@@ -1,5 +1,5 @@
 ==============================
-Welcome to ScanWatch 0.2.0dev
+Welcome to ScanWatch 0.2.0
 ==============================
 
 
@@ -17,8 +17,8 @@ You are also welcome to contribute by submitting PRs.
 
 
 | This library is a local tracker of transactions for the Ethereum chain, the Binance Smart chain and the Polygon chain.
-| It is a simple single-point interface with the `etherscan <https://etherscan.io>`_, `bscscan <https://bscscan.com>`_
-  and `polygonscan <https://polygonscan.com>`_ APIs.
+| It is a simple single-point interface with the `etherscan <https://etherscan.io>`__, `bscscan <https://bscscan.com>`__
+  and `polygonscan <https://polygonscan.com>`__ APIs.
 | This library will save locally the transactions to gain time and avoid over-calling the APIs.
 
 
@@ -37,18 +37,18 @@ Quick Tour
 ----------
 
 1. API Keys
-~~~~~~~~~~~~
+~~~~~~~~~~~
 
 You will need to generate API tokens to use this library:
 
-1. Ethereum chain: go on `etherscan <https://etherscan.io/myapikey>`_
-2. Binance Smart chain: go on `bscscan <https://bscscan.com/myapikey>`_
-3. Polygon chain: go on `polygonscan <https://polygonscan.com/myapikey>`_
+1. Ethereum chain: go on `etherscan <https://etherscan.io/myapikey>`__
+2. Binance Smart chain: go on `bscscan <https://bscscan.com/myapikey>`__
+3. Polygon chain: go on `polygonscan <https://polygonscan.com/myapikey>`__
 
 (If you want to use several chains, you will need an API token for each).
 
 2. Installation
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
 
 ``ScanWatch`` is available on `PYPI <https://pypi.org/project/ScanWatch/>`_, install with ``pip``:
 
@@ -135,7 +135,7 @@ To fetch the transactions that have been previously saved, just use the methods 
     manager.get_transactions(TRANSACTION.INTERNAL)  # internal transactions
 
 6. Holdings
-~~~~~~~~~~~~
+~~~~~~~~~~~
 
 The manager can also give you the current tokens hold by an address:
 
